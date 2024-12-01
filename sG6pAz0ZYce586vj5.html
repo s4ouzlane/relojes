@@ -1,0 +1,692 @@
+<html><head><base href="http://localhost/" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TicTac - Blog de Relojes y Ofertas</title>
+
+<style>
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #e74c3c;
+  --accent-color: #f1c40f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  background: #f5f5f5;
+}
+
+.header {
+  background: var(--primary-color);
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  animation: tick-tock 2s infinite;
+}
+
+@keyframes tick-tock {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(20deg); }
+  75% { transform: rotate(-20deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--accent-color);
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 100px auto 2rem;
+  padding: 0 1rem;
+}
+
+.post-form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-group textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background: var(--secondary-color);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #c0392b;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.blog-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.blog-content {
+  padding: 1.5rem;
+}
+
+.blog-title {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.blog-excerpt {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.read-more {
+  display: inline-block;
+  background: var(--secondary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.read-more:hover {
+  background: #c0392b;
+}
+
+.footer {
+  background: var(--primary-color);
+  color: white;
+  padding: 2rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.footer-content div {
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--secondary-color);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s, background 0.3s;
+  text-decoration: none;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+}
+
+.scroll-top:hover {
+  background: #c0392b;
+}
+
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.login-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.login-form h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  display: none;
+  margin-top: 10px;
+}
+
+.blog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.delete-post {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.delete-post:hover {
+  background: #c0392b;
+}
+
+/* Add styles for full post view */
+.full-post {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.post-header {
+  margin-bottom: 2rem;
+}
+
+.post-header h1 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+.post-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #333;
+  margin: 2rem 0;
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Login Modal -->
+  <div class="login-container" id="loginModal">
+    <form class="login-form" id="loginForm">
+      <h2>Admin Login</h2>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+  </div>
+
+  <header class="header">
+    <nav class="nav">
+      <div class="logo-container">
+        <svg class="logo" width="40" height="40" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="#f1c40f" stroke-width="2"/>
+          <line x1="20" y1="20" x2="20" y2="8" stroke="#f1c40f" stroke-width="2"/>
+          <line x1="20" y1="20" x2="28" y2="20" stroke="#f1c40f" stroke-width="2"/>
+        </svg>
+        <h1 style="color: white;">TicTac</h1>
+      </div>
+      <div class="nav-links">
+        <a href="/" onclick="showMainPage(event)">Inicio</a>
+        <a href="#admin">Admin</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content" id="top">
+    <div class="post-form-container hidden" id="postFormContainer">
+      <h2>Crear Nuevo Blog Post</h2>
+      <form class="post-form" id="blogForm">
+        <div class="form-group">
+          <label for="title">Título del Post</label>
+          <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="image">Imagen de Portada</label>
+          <input type="file" id="image" name="image" accept="image/*" required>
+          <img id="imagePreview" class="image-preview">
+        </div>
+        <div class="form-group">
+          <label for="excerpt">Resumen Corto</label>
+          <textarea id="excerpt" name="excerpt" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="content">Contenido Completo</label>
+          <textarea id="content" name="content" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Publicar Blog</button>
+      </form>
+    </div>
+
+    <div class="blog-grid">
+    </div>
+  </main>
+
+  <a href="#top" class="scroll-top" id="scrollTop">↑</a>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <h3>Sobre TicTac</h3>
+        <p>Tu fuente confiable de información sobre relojes y las mejores ofertas del mercado.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function showMainPage(event) {
+      event.preventDefault();
+      document.querySelector('.blog-grid').style.display = 'grid';
+      document.getElementById('postFormContainer').classList.add('hidden');
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      history.pushState({}, '', '/');
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    let isLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+
+    let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [
+      {
+        id: 1,
+        title: 'Los Mejores Relojes de 2024',
+        image: 'https://via.placeholder.com/400x200',
+        excerpt: 'Descubre nuestra selección de los relojes más destacados del año, desde opciones económicas hasta piezas de lujo.',
+        content: '',
+        url: 'post-1'
+      },
+      {
+        id: 2,
+        title: 'Guía de Ofertas Black Friday',
+        image: 'https://via.placeholder.com/400x200',
+        excerpt: 'Prepárate para las mejores ofertas en relojes durante el Black Friday con nuestra guía completa.',
+        content: '',
+        url: 'post-2'
+      },
+      {
+        id: 3,
+        title: 'Cómo Cuidar Tu Reloj',
+        image: 'https://via.placeholder.com/400x200',
+        excerpt: 'Tips y consejos para mantener tu reloj en perfecto estado y prolongar su vida útil.',
+        content: '',
+        url: 'post-3'
+      }
+    ];
+
+    function renderBlogPosts() {
+      const blogGrid = document.querySelector('.blog-grid');
+      blogGrid.innerHTML = '';
+      
+      blogPosts.forEach(post => {
+        const blogCard = document.createElement('article');
+        blogCard.className = 'blog-card';
+        
+        const deleteButton = isLoggedIn ? 
+          `<button class="delete-post" data-id="${post.id}">🗑️ Eliminar</button>` : '';
+        
+        blogCard.innerHTML = `
+          <img src="${post.image}" alt="${post.title}" class="blog-card-image">
+          <div class="blog-content">
+            <h2 class="blog-title">${post.title}</h2>
+            <p class="blog-excerpt">${post.excerpt}</p>
+            <div class="blog-actions">
+              <a href="#" class="read-more" data-id="${post.id}">Leer más</a>
+              ${deleteButton}
+            </div>
+          </div>
+        `;
+        
+        blogGrid.appendChild(blogCard);
+      });
+
+      document.querySelectorAll('.read-more').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          const postId = parseInt(this.dataset.id);
+          showFullPost(postId);
+        });
+      });
+
+      if(isLoggedIn) {
+        document.querySelectorAll('.delete-post').forEach(button => {
+          button.addEventListener('click', function() {
+            if(confirm('¿Estás seguro de que quieres eliminar este post?')) {
+              const postId = parseInt(this.dataset.id);
+              blogPosts = blogPosts.filter(post => post.id !== postId);
+              localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+              renderBlogPosts();
+            }
+          });
+        });
+      }
+    }
+
+    function showFullPost(postId) {
+      const post = blogPosts.find(p => p.id === postId);
+      if (!post) return;
+
+      document.querySelector('.blog-grid').style.display = 'none';
+      document.getElementById('postFormContainer').classList.add('hidden');
+
+      const fullPostHTML = `
+        <div class="full-post">
+          <div class="post-header">
+            <h1>${post.title}</h1>
+          </div>
+          <img src="${post.image}" alt="${post.title}" style="max-width: 100%; height: auto; margin: 2rem 0;">
+          <div class="post-content">
+            <p>${post.content || post.excerpt}</p>
+          </div>
+          <button class="submit-btn" onclick="returnToMain()">Volver a la lista</button>
+        </div>
+      `;
+
+      const mainContent = document.querySelector('.main-content');
+      const fullPostElement = document.createElement('div');
+      fullPostElement.id = 'fullPostView';
+      fullPostElement.innerHTML = fullPostHTML;
+      
+      const existingFullPost = document.getElementById('fullPostView');
+      if (existingFullPost) {
+        existingFullPost.remove();
+      }
+      
+      mainContent.appendChild(fullPostElement);
+
+      history.pushState({}, '', `/blog/${post.url}`);
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    function returnToMain() {
+      const fullPostView = document.getElementById('fullPostView');
+      if (fullPostView) {
+        fullPostView.remove();
+      }
+      
+      document.querySelector('.blog-grid').style.display = 'grid';
+      
+      history.pushState({}, '', '/');
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    renderBlogPosts();
+
+    const scrollButton = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        scrollButton.classList.add('visible');
+      } else {
+        scrollButton.classList.remove('visible');
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    });
+
+    document.querySelectorAll('.blog-card').forEach((card) => {
+      card.style.opacity = 0;
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(card);
+    });
+
+    const adminCredentials = {
+      username: 'samir',
+      password: 'samir10@'
+    };
+
+    const loginModal = document.getElementById('loginModal');
+    const loginForm = document.getElementById('loginForm');
+    const postFormContainer = document.getElementById('postFormContainer');
+
+    document.querySelector('a[href="#admin"]').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (!isLoggedIn) {
+        loginModal.style.display = 'flex';
+      }
+    });
+
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal) {
+        loginModal.style.display = 'none';
+      }
+    });
+
+    if (isLoggedIn) {
+      postFormContainer.classList.remove('hidden');
+    }
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === adminCredentials.username && password === adminCredentials.password) {
+        isLoggedIn = true;
+        localStorage.setItem('isAdminLoggedIn', 'true');
+        loginModal.style.display = 'none';
+        postFormContainer.classList.remove('hidden');
+        alert('¡Bienvenido administrador!');
+      } else {
+        alert('Credenciales incorrectas');
+      }
+    });
+
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.style.display = 'block';
+          imagePreview.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    const blogForm = document.getElementById('blogForm');
+    blogForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const excerpt = document.getElementById('excerpt').value;
+      const content = document.getElementById('content').value;
+      const imageFile = document.getElementById('image').files[0];
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newPost = {
+          id: Date.now(),
+          title: title,
+          image: e.target.result,
+          excerpt: excerpt,
+          content: content,
+          url: title.toLowerCase().replace(/ /g, '-')
+        };
+        
+        blogPosts.unshift(newPost);
+        localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+        
+        renderBlogPosts();
+        
+        blogForm.reset();
+        imagePreview.style.display = 'none';
+      }
+      
+      if (imageFile) {
+        reader.readAsDataURL(imageFile);
+      }
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'isAdminLoggedIn') {
+        isLoggedIn = e.newValue === 'true';
+        if (!isLoggedIn) {
+          postFormContainer.classList.add('hidden');
+        }
+      }
+    });
+
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash === '#admin' && !isLoggedIn) {
+        loginModal.style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
